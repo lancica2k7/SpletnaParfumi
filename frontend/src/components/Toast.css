@@ -1,0 +1,113 @@
+.toast {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--color-mint);
+  color: var(--text-primary);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(29, 209, 161, 0.2);
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.toast-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-hide {
+  opacity: 0;
+  transform: translateX(400px);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.toast-close {
+  background: rgba(29, 209, 161, 0.1);
+  border: 1px solid rgba(29, 209, 161, 0.3);
+  color: var(--color-mint);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.toast-close:hover {
+  background: var(--color-mint);
+  border-color: var(--color-mint);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.toast-close:active {
+  transform: scale(0.9) rotate(90deg);
+}
+
+.toast-icon {
+  background: var(--gradient-fresh);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+  animation: checkmark 0.5s ease;
+  color: white;
+}
+
+.toast-message {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .toast {
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    transform: translateY(-100px);
+  }
+
+  .toast-show {
+    transform: translateY(0);
+  }
+
+  .toast-hide {
+    transform: translateY(-100px);
+  }
+}

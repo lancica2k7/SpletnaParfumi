@@ -1,0 +1,14 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  transition: background 0.3s ease;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
