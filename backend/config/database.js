@@ -157,6 +157,12 @@ const initializeDatabase = async () => {
       ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_id INT NULL;
     `).catch(() => {});
 
+    // Add missing product columns if needed (migration)
+    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS original_price DECIMAL(10,2) NULL`).catch(() => {});
+    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS notes TEXT NULL`).catch(() => {});
+    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS rating DECIMAL(3,1) DEFAULT 4.5`).catch(() => {});
+    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS reviews INT DEFAULT 0`).catch(() => {});
+
     // Create payments table
     await connection.query(`
       CREATE TABLE IF NOT EXISTS payments (
