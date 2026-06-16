@@ -300,9 +300,10 @@
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   color: #333;
   border: 2px solid white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  border-radius: 12px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -313,6 +314,8 @@
   right: -8px;
   animation: pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 @keyframes pop {
