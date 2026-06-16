@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
 import { useCart } from '../context/CartContext';
 import './PaymentSuccess.css';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -14,13 +14,12 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     const paymentIntentId = searchParams.get('payment_intent');
-    
+
     if (!paymentIntentId) {
       navigate('/');
       return;
     }
 
-    // Verify payment status
     verifyPayment(paymentIntentId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, navigate]);
@@ -41,7 +40,6 @@ const PaymentSuccess = () => {
 
       if (data.success && data.payment.status === 'succeeded') {
         setPaymentStatus(data.payment);
-        // Clear cart after successful payment
         clearCart();
       } else {
         setPaymentStatus({ error: true });
@@ -88,7 +86,7 @@ const PaymentSuccess = () => {
             <div className="checkmark"></div>
           </div>
         </div>
-        
+
         <h1>🎉 Payment Successful!</h1>
         <p className="success-message">
           Thank you for your purchase! Your order has been confirmed.
@@ -127,4 +125,3 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;
-
