@@ -125,12 +125,14 @@ const initializeDatabase = async () => {
         customer_email VARCHAR(255) NOT NULL,
         customer_phone VARCHAR(20),
         shipping_address TEXT,
+        payment_id INT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         INDEX idx_user_id (user_id),
         INDEX idx_status (status),
-        INDEX idx_created_at (created_at)
+        INDEX idx_created_at (created_at),
+        INDEX idx_payment_id (payment_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
@@ -149,6 +151,11 @@ const initializeDatabase = async () => {
         INDEX idx_product_id (product_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
+
+    // Add payment_id to orders if missing (migration)
+    await connection.query(`
+      ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_id INT NULL;
+    `).catch(() => {});
 
     // Create payments table
     await connection.query(`

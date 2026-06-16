@@ -21,10 +21,16 @@ router.get('/', async (req, res) => {
     );
 
     // Parse product_data JSON and format cart items
-    const cartItems = items.map(item => ({
-      ...JSON.parse(item.product_data),
-      quantity: item.quantity
-    }));
+    const cartItems = items.map(item => {
+      try {
+        const data = typeof item.product_data === 'string'
+          ? JSON.parse(item.product_data)
+          : item.product_data;
+        return { ...data, quantity: item.quantity };
+      } catch {
+        return { id: item.product_id, quantity: item.quantity };
+      }
+    });
 
     res.json({
       success: true,
