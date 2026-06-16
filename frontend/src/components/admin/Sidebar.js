@@ -60,7 +60,14 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      <div className="border-t border-slate-800 px-3 py-4">
+      <div className="border-t border-slate-800 px-3 py-4 space-y-1">
+        <button
+          onClick={() => navigate('/')}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+        >
+          <span className="text-xl font-bold" aria-hidden="true">←</span>
+          {!collapsed && <span>{language === 'sl' ? 'Nazaj v trgovino' : 'Back to Store'}</span>}
+        </button>
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
