@@ -37,16 +37,18 @@ const PaymentSuccess = () => {
       );
 
       const data = await response.json();
+      console.log('Payment status response:', data);
 
       if (data.success && data.payment.status === 'succeeded') {
         setPaymentStatus(data.payment);
         clearCart();
       } else {
-        setPaymentStatus({ error: true });
+        console.error('Payment verification failed:', data.message || data);
+        setPaymentStatus({ error: true, message: data.message });
       }
     } catch (error) {
       console.error('Error verifying payment:', error);
-      setPaymentStatus({ error: true });
+      setPaymentStatus({ error: true, message: error.message });
     } finally {
       setLoading(false);
     }
@@ -69,7 +71,7 @@ const PaymentSuccess = () => {
         <div className="result-container error">
           <div className="result-icon">❌</div>
           <h1>Payment Verification Failed</h1>
-          <p>We couldn't verify your payment. Please contact support if you were charged.</p>
+          <p>{paymentStatus?.message || "We couldn't verify your payment. Please contact support if you were charged."}</p>
           <button onClick={() => navigate('/')} className="btn-primary">
             Back to Home
           </button>

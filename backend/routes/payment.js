@@ -65,6 +65,7 @@ router.get('/payment-status/:paymentIntentId', authenticateToken, async (req, re
     );
 
     if (payments.length === 0) {
+      console.error(`❌ Payment not found in DB for intent: ${paymentIntentId}, user: ${req.user.id}`);
       return res.status(404).json({
         success: false,
         message: 'Payment not found'
@@ -72,9 +73,11 @@ router.get('/payment-status/:paymentIntentId', authenticateToken, async (req, re
     }
 
     const payment = payments[0];
+    console.log(`✅ Found payment in DB: id=${payment.id}, status=${payment.status}`);
 
     // Get payment from Stripe
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    console.log(`✅ Stripe payment status: ${paymentIntent.status}`);
 
     // If payment succeeded and order doesn't exist yet, create it
     if (paymentIntent.status === 'succeeded') {

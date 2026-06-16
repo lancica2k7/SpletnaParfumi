@@ -250,6 +250,11 @@
   background: linear-gradient(135deg, #5568d3 0%, #6a3f91 100%);
 }
 
+.cart-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
 .cart-button {
   background: var(--gradient-warm);
   border: 2px solid transparent;

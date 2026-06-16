@@ -82,19 +82,21 @@ const Header = () => {
             {isDarkMode ? '☀ Light' : '☾ Dark'}
           </button>
 
-          <button
-            className="cart-button"
-            onClick={() => navigate('/cart')}
-            aria-label="Shopping cart"
-          >
-            <span className="cart-icon">♦</span>
-            <span>{t('cart')}</span>
+          <div className="cart-wrapper">
+            <button
+              className="cart-button"
+              onClick={() => navigate('/cart')}
+              aria-label="Shopping cart"
+            >
+              <span className="cart-icon">♦</span>
+              <span>{t('cart')}</span>
+            </button>
             {cartCount > 0 && (
               <span key={cartCount} className="cart-badge">
                 {cartCount}
               </span>
             )}
-          </button>
+          </div>
 
           <button
             className="menu-toggle"
