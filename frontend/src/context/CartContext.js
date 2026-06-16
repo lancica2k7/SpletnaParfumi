@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
+const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
+
 const CartContext = createContext();
 
 export const useCart = () => {
@@ -12,7 +14,7 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-  const { user, token, isAuthenticated } = useAuth();
+  const { token, isAuthenticated } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
@@ -27,6 +29,7 @@ export const CartProvider = ({ children }) => {
       const saved = localStorage.getItem('cartItems');
       setCartItems(saved ? JSON.parse(saved) : []);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, token]);
 
   // Save to localStorage for guest users
@@ -39,7 +42,7 @@ export const CartProvider = ({ children }) => {
   const loadCartFromDatabase = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/cart', {
+      const response = await fetch('${API_URL}/api/cart', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,7 +65,7 @@ export const CartProvider = ({ children }) => {
     if (!isAuthenticated || !token) return;
 
     try {
-      await fetch('http://localhost:5000/api/cart/sync', {
+      await fetch('${API_URL}/api/cart/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +138,7 @@ export const CartProvider = ({ children }) => {
     // Clear from database if logged in
     if (isAuthenticated && token) {
       try {
-        await fetch('http://localhost:5000/api/cart/clear', {
+        await fetch('${API_URL}/api/cart/clear', {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

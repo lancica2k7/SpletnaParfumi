@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
+
 const ProductAddModal = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -30,7 +32,7 @@ const ProductAddModal = ({ onClose, onSuccess }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/products', {
+      const response = await fetch('${API_URL}/api/admin/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

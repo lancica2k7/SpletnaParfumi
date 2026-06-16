@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext';
 import CheckoutForm from '../components/CheckoutForm';
 import './Checkout.css';
 
+const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
+
 // Load Stripe
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || 'pk_test_dummy_key');
 
@@ -35,12 +37,13 @@ const Checkout = () => {
 
     // Create payment intent
     createPaymentIntent();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems, user, navigate]);
 
   const createPaymentIntent = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/payment/create-payment-intent', {
+      const response = await fetch('${API_URL}/api/payment/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

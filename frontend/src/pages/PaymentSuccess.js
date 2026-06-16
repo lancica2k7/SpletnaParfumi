@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
 import { useCart } from '../context/CartContext';
 import './PaymentSuccess.css';
 
@@ -20,13 +22,14 @@ const PaymentSuccess = () => {
 
     // Verify payment status
     verifyPayment(paymentIntentId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, navigate]);
 
   const verifyPayment = async (paymentIntentId) => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:5000/api/payment/payment-status/${paymentIntentId}`,
+        `${API_URL}/api/payment/payment-status/${paymentIntentId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`

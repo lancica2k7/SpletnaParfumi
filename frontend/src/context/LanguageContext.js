@@ -85,7 +85,7 @@ const translations = {
     // Admin
     users: 'Users',
     orders: 'Orders',
-    products: 'Products',
+    adminProducts: 'Products',
     dashboard: 'Dashboard',
     totalUsers: 'Total Users',
     activeUsers: 'Active Users',
@@ -232,7 +232,7 @@ const translations = {
     // Admin
     users: 'Uporabniki',
     orders: 'Naročila',
-    products: 'Izdelki',
+    adminProducts: 'Izdelki',
     dashboard: 'Nadzorna Plošča',
     totalUsers: 'Skupaj Uporabnikov',
     activeUsers: 'Aktivni Uporabniki',

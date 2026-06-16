@@ -25,9 +25,12 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Follow Us</h4>
           <div className="social-links">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Instagram">📷</a>
-            <a href="#" aria-label="Twitter">🐦</a>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a href="/" aria-label="Facebook">📘</a>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a href="/" aria-label="Instagram">📷</a>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a href="/" aria-label="Twitter">🐦</a>
           </div>
         </div>
       </div>
