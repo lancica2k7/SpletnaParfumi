@@ -88,9 +88,14 @@ router.get('/payment-status/:paymentIntentId', authenticateToken, async (req, re
       );
 
       if (existingOrders.length === 0) {
-        // Create order with transaction
-        await createOrderForPayment(payment.id, payment.user_id, payment.amount);
-        console.log(`✅ Order created for payment ${paymentIntentId}`);
+        // Create order with transaction. Don't let order-creation failure
+        // block the payment confirmation — the payment itself succeeded.
+        try {
+          await createOrderForPayment(payment.id, payment.user_id, payment.amount);
+          console.log(`✅ Order created for payment ${paymentIntentId}`);
+        } catch (orderError) {
+          console.error('⚠️ Order creation failed (payment still valid):', orderError.message);
+        }
       }
 
       // Update payment status to succeeded
@@ -114,7 +119,8 @@ router.get('/payment-status/:paymentIntentId', authenticateToken, async (req, re
     console.error('Error fetching payment status:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch payment status'
+      message: 'Failed to fetch payment status',
+      error: error.message
     });
   }
 });
@@ -231,7 +237,14 @@ async function createOrderForPayment(paymentId, userId, amount) {
 
     // Create order items from cart
     for (const item of cartItems) {
-      const productData = JSON.parse(item.product_data);
+      let productData;
+      try {
+        productData = typeof item.product_data === 'string'
+          ? JSON.parse(item.product_data)
+          : item.product_data;
+      } catch {
+        productData = {};
+      }
       await connection.execute(
         'INSERT INTO order_items (order_id, product_id, quantity, price, product_name) VALUES (?, ?, ?, ?, ?)',
         [orderId, item.product_id, item.quantity, productData.price || 0, productData.name || 'Unknown Product']
