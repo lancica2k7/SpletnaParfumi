@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
-const API_URL = process.env.REACT_APP_API_URL || '${API_URL}';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const CartContext = createContext();
 
@@ -20,19 +20,16 @@ export const CartProvider = ({ children }) => {
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Load cart from database when user logs in
   useEffect(() => {
     if (isAuthenticated && token) {
       loadCartFromDatabase();
     } else {
-      // Load from localStorage for guest users
       const saved = localStorage.getItem('cartItems');
       setCartItems(saved ? JSON.parse(saved) : []);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, token]);
 
-  // Save to localStorage for guest users
   useEffect(() => {
     if (!isAuthenticated) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -42,7 +39,7 @@ export const CartProvider = ({ children }) => {
   const loadCartFromDatabase = async () => {
     try {
       setLoading(true);
-      const response = await fetch('${API_URL}/api/cart', {
+      const response = await fetch(`${API_URL}/api/cart`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -51,7 +48,6 @@ export const CartProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setCartItems(data.cartItems || []);
-        // Clear localStorage when loading from database
         localStorage.removeItem('cartItems');
       }
     } catch (error) {
@@ -65,7 +61,7 @@ export const CartProvider = ({ children }) => {
     if (!isAuthenticated || !token) return;
 
     try {
-      await fetch('${API_URL}/api/cart/sync', {
+      await fetch(`${API_URL}/api/cart/sync`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,14 +89,12 @@ export const CartProvider = ({ children }) => {
 
     setCartItems((prevItems) => {
       const updated = newItems(prevItems);
-      // Save to database if logged in
       if (isAuthenticated && token) {
         saveCartToDatabase(updated);
       }
       return updated;
     });
-    
-    // Show toast notification
+
     setToastMessage(`${product.name} added to cart!`);
     setShowToast(true);
   };
@@ -108,7 +102,6 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (productId) => {
     setCartItems((prevItems) => {
       const updated = prevItems.filter((item) => item.id !== productId);
-      // Save to database if logged in
       if (isAuthenticated && token) {
         saveCartToDatabase(updated);
       }
@@ -125,7 +118,6 @@ export const CartProvider = ({ children }) => {
       const updated = prevItems.map((item) =>
         item.id === productId ? { ...item, quantity } : item
       );
-      // Save to database if logged in
       if (isAuthenticated && token) {
         saveCartToDatabase(updated);
       }
@@ -135,10 +127,9 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     setCartItems([]);
-    // Clear from database if logged in
     if (isAuthenticated && token) {
       try {
-        await fetch('${API_URL}/api/cart/clear', {
+        await fetch(`${API_URL}/api/cart/clear`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -148,7 +139,6 @@ export const CartProvider = ({ children }) => {
         console.error('Error clearing cart:', error);
       }
     }
-    // Clear localStorage
     localStorage.removeItem('cartItems');
   };
 
@@ -180,4 +170,3 @@ export const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
-
