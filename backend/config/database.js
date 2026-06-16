@@ -152,16 +152,29 @@ const initializeDatabase = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
-    // Add payment_id to orders if missing (migration)
-    await connection.query(`
-      ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_id INT NULL;
-    `).catch(() => {});
+    // --- Migrations: add missing columns (MySQL 8 doesn't support ADD COLUMN IF NOT EXISTS) ---
+    // Helper: add a column only if it doesn't already exist
+    const addColumnIfMissing = async (table, column, definition) => {
+      try {
+        const [rows] = await connection.query(
+          `SELECT COUNT(*) AS cnt FROM INFORMATION_SCHEMA.COLUMNS
+           WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?`,
+          [table, column]
+        );
+        if (rows[0].cnt === 0) {
+          await connection.query(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+          console.log(`✅ Migration: added ${table}.${column}`);
+        }
+      } catch (err) {
+        console.error(`❌ Migration failed for ${table}.${column}:`, err.message);
+      }
+    };
 
-    // Add missing product columns if needed (migration)
-    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS original_price DECIMAL(10,2) NULL`).catch(() => {});
-    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS notes TEXT NULL`).catch(() => {});
-    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS rating DECIMAL(3,1) DEFAULT 4.5`).catch(() => {});
-    await connection.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS reviews INT DEFAULT 0`).catch(() => {});
+    await addColumnIfMissing('orders', 'payment_id', 'INT NULL');
+    await addColumnIfMissing('products', 'original_price', 'DECIMAL(10,2) NULL');
+    await addColumnIfMissing('products', 'notes', 'TEXT NULL');
+    await addColumnIfMissing('products', 'rating', 'DECIMAL(3,1) DEFAULT 4.5');
+    await addColumnIfMissing('products', 'reviews', 'INT DEFAULT 0');
 
     // Create payments table
     await connection.query(`
