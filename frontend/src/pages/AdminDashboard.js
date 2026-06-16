@@ -79,7 +79,7 @@ const AdminDashboard = () => {
 
   const formatCurrency = (amount) => {
     const numAmount = typeof amount === 'number' ? amount : parseFloat(amount) || 0;
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numAmount);
+    return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(numAmount);
   };
 
   return (
@@ -140,8 +140,8 @@ const AdminDashboard = () => {
             />
             <StatsCard
               title={t('totalRevenue')}
-              value={stats ? formatCurrency(stats.totalRevenue || 0) : '$0.00'}
-              icon="$"
+              value={stats ? formatCurrency(stats.totalRevenue || 0) : '€0.00'}
+              icon="€"
               loading={loadingStats}
             />
             <StatsCard

@@ -136,10 +136,10 @@ const Products = () => {
                     </span>
                   </div>
                   <div className="product-price">
-                    <span className="price-current">${product.price}</span>
+                    <span className="price-current">€{product.price}</span>
                     {product.originalPrice && (
                       <span className="price-original">
-                        ${product.originalPrice}
+                        €{product.originalPrice}
                       </span>
                     )}
                   </div>

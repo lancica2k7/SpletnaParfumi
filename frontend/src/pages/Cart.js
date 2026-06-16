@@ -70,7 +70,7 @@ const Cart = () => {
                     {item.name}
                   </Link>
                   <p className="cart-item-brand">{item.brand}</p>
-                  <p className="cart-item-price">${item.price}</p>
+                  <p className="cart-item-price">€{item.price}</p>
                 </div>
 
                 <div className="cart-item-quantity">
@@ -88,7 +88,7 @@ const Cart = () => {
                 </div>
 
                 <div className="cart-item-total">
-                  <p>${(item.price * item.quantity).toFixed(2)}</p>
+                  <p>€{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
 
                 <button
@@ -106,7 +106,7 @@ const Cart = () => {
             <h2>{language === 'sl' ? 'Povzetek Naročila' : 'Order Summary'}</h2>
             <div className="summary-row">
               <span>{t('subtotal')}:</span>
-              <span>${total.toFixed(2)}</span>
+              <span>€{total.toFixed(2)}</span>
             </div>
             <div className="summary-row">
               <span>{t('shipping')}:</span>
@@ -114,21 +114,21 @@ const Cart = () => {
                 {shipping === 0 ? (
                   <span className="free-shipping">{language === 'sl' ? 'BREZPLAČNO' : 'FREE'}</span>
                 ) : (
-                  `$${shipping.toFixed(2)}`
+                  `€${shipping.toFixed(2)}`
                 )}
               </span>
             </div>
             {total < 50 && (
               <p className="shipping-note">
                 {language === 'sl' 
-                  ? `Dodaj še $${(50 - total).toFixed(2)} za brezplačno dostavo!`
-                  : `Add $${(50 - total).toFixed(2)} more for free shipping!`
+                  ? `Dodaj še €${(50 - total).toFixed(2)} za brezplačno dostavo!`
+                  : `Add €${(50 - total).toFixed(2)} more for free shipping!`
                 }
               </p>
             )}
             <div className="summary-row total">
               <span>{t('total')}:</span>
-              <span>${finalTotal.toFixed(2)}</span>
+              <span>€{finalTotal.toFixed(2)}</span>
             </div>
             <button
               className="checkout-button"

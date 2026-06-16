@@ -99,7 +99,7 @@ const PaymentSuccess = () => {
             <div className="detail-row">
               <span>Amount Paid:</span>
               <span className="amount">
-                ${paymentStatus.amount ? Number(paymentStatus.amount).toFixed(2) : '0.00'}
+                €{paymentStatus.amount ? Number(paymentStatus.amount).toFixed(2) : '0.00'}
               </span>
             </div>
             <div className="detail-row">

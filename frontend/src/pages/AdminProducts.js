@@ -51,7 +51,7 @@ const AdminProducts = () => {
   });
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
   };
 
   return (

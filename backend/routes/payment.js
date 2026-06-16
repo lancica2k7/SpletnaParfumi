@@ -7,7 +7,7 @@ const { authenticateToken } = require('../middleware/auth');
 // Create payment intent
 router.post('/create-payment-intent', authenticateToken, async (req, res) => {
   try {
-    const { amount, currency = 'usd', items } = req.body;
+    const { amount, currency = 'eur', items } = req.body;
     const userId = req.user.id;
 
     // Validate amount

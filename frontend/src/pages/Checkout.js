@@ -51,7 +51,7 @@ const Checkout = () => {
         },
         body: JSON.stringify({
           amount: total,
-          currency: 'usd',
+          currency: 'eur',
           items: cartItems.map(item => ({
             id: item.id,
             name: item.name,
@@ -148,13 +148,13 @@ const Checkout = () => {
                       <p className="item-qty">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="item-price">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="item-price">€{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
             <div className="summary-total">
               <span>Total</span>
-              <span className="total-amount">${total.toFixed(2)}</span>
+              <span className="total-amount">€{total.toFixed(2)}</span>
             </div>
           </div>
 

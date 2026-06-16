@@ -8,7 +8,7 @@ const OrderViewModal = ({ order, onClose, onUpdateStatus }) => {
   const [loading, setLoading] = useState(true);
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
   };
 
   const formatDate = (dateStr) => {

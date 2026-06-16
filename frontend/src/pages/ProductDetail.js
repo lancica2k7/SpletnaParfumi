@@ -72,12 +72,12 @@ const ProductDetail = () => {
             </div>
 
             <div className="product-price-section">
-              <span className="price-current">${product.price}</span>
+              <span className="price-current">€{product.price}</span>
               {product.originalPrice && (
                 <>
-                  <span className="price-original">${product.originalPrice}</span>
+                  <span className="price-original">€{product.originalPrice}</span>
                   <span className="discount-badge">
-                    {language === 'sl' ? 'Prihranek' : 'Save'} ${(product.originalPrice - product.price).toFixed(2)}
+                    {language === 'sl' ? 'Prihranek' : 'Save'} €{(product.originalPrice - product.price).toFixed(2)}
                   </span>
                 </>
               )}

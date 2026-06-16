@@ -183,7 +183,7 @@ const initializeDatabase = async () => {
         user_id INT NOT NULL,
         stripe_payment_intent_id VARCHAR(255) NOT NULL,
         amount DECIMAL(10, 2) NOT NULL,
-        currency VARCHAR(10) DEFAULT 'usd',
+        currency VARCHAR(10) DEFAULT 'eur',
         status VARCHAR(50) DEFAULT 'pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
