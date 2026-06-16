@@ -3,3 +3,7 @@ node_modules/
 *.log
 dist/
 build/
+.claude/
+
+# Ne ignoriraj .env.example - te datoteke so potrebne za deployment
+!.env.example
