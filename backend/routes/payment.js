@@ -26,9 +26,7 @@ router.post('/create-payment-intent', authenticateToken, async (req, res) => {
         userId: userId.toString(),
         items: JSON.stringify(items || [])
       },
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      payment_method_types: ['card'],
     });
 
     // Store pending payment in database

@@ -12,8 +12,6 @@ const Sidebar = () => {
     { labelKey: 'users', path: '/admin/users', icon: 'U' },
     { labelKey: 'products', path: '/admin/products', icon: 'P' },
     { labelKey: 'orders', path: '/admin/orders', icon: 'O' },
-    { labelKey: 'analytics', path: '/admin/analytics', icon: 'A', label: language === 'sl' ? 'Analitika' : 'Analytics' },
-    { labelKey: 'settings', path: '/admin/settings', icon: 'S', label: language === 'sl' ? 'Nastavitve' : 'Settings' },
   ];
 
   const handleLogout = () => {
